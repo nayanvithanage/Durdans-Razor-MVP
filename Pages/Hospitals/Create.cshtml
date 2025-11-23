@@ -1,0 +1,43 @@
+@page
+@model DurdansRazor.Pages.Hospitals.CreateModel
+@{
+    ViewData["Title"] = "Create Hospital";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">Create New Hospital</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Hospital.Name" class="form-label"></label>
+                            <input asp-for="Hospital.Name" class="form-control" />
+                            <span asp-validation-for="Hospital.Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Hospital.Address" class="form-label"></label>
+                            <textarea asp-for="Hospital.Address" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Hospital.Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Create Hospital</button>
+                            <a asp-page="/Hospitals/Index" class="btn btn-secondary">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

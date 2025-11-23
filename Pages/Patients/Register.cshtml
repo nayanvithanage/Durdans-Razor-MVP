@@ -1,0 +1,49 @@
+@page
+@model DurdansRazor.Pages.Patients.RegisterModel
+@{
+    ViewData["Title"] = "Register Patient";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Register New Patient</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Patient.Name" class="form-label"></label>
+                            <input asp-for="Patient.Name" class="form-control" />
+                            <span asp-validation-for="Patient.Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Patient.DateOfBirth" class="form-label"></label>
+                            <input asp-for="Patient.DateOfBirth" class="form-control" type="date" />
+                            <span asp-validation-for="Patient.DateOfBirth" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Patient.ContactNumber" class="form-label"></label>
+                            <input asp-for="Patient.ContactNumber" class="form-control" placeholder="e.g., 0771234567" />
+                            <span asp-validation-for="Patient.ContactNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Register Patient</button>
+                            <a asp-page="/Patients/Index" class="btn btn-secondary">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,77 @@
+@page
+@model DurdansRazor.Pages.Appointments.IndexModel
+@{
+    ViewData["Title"] = "Appointments";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Appointments</h2>
+        <a asp-page="/Appointments/Book" class="btn btn-warning">Book New Appointment</a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Hospital</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Appointments.Any())
+                        {
+                            @foreach (var appointment in Model.Appointments)
+                            {
+                                <tr>
+                                    <td>@appointment.Patient?.Name</td>
+                                    <td>@appointment.Doctor?.Name (@appointment.Doctor?.Specialization)</td>
+                                    <td>@appointment.Hospital?.Name</td>
+                                    <td>@appointment.AppointmentDate.ToString("dd/MM/yyyy hh:mm tt")</td>
+                                    <td>
+                                        <span class="badge bg-@GetStatusColor(appointment.Status)">
+                                            @appointment.Status
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center">No appointments found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetStatusColor(AppointmentStatus status)
+    {
+        return status switch
+        {
+            AppointmentStatus.Booked => "primary",
+            AppointmentStatus.Confirmed => "success",
+            AppointmentStatus.Completed => "secondary",
+            AppointmentStatus.Cancelled => "danger",
+            _ => "secondary"
+        };
+    }
+}

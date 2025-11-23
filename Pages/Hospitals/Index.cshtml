@@ -1,0 +1,53 @@
+@page
+@model DurdansRazor.Pages.Hospitals.IndexModel
+@{
+    ViewData["Title"] = "Hospitals";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Hospitals</h2>
+        <a asp-page="/Hospitals/Create" class="btn btn-success">Create New Hospital</a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Hospitals.Any())
+                        {
+                            @foreach (var hospital in Model.Hospitals)
+                            {
+                                <tr>
+                                    <td>@hospital.Name</td>
+                                    <td>@hospital.Address</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="2" class="text-center">No hospitals found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

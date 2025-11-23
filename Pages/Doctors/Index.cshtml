@@ -1,0 +1,66 @@
+@page
+@model DurdansRazor.Pages.Doctors.IndexModel
+@{
+    ViewData["Title"] = "Doctors";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Doctors</h2>
+        <a asp-page="/Doctors/Create" class="btn btn-info text-white">Register New Doctor</a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Specialization</th>
+                            <th>Consultation Fee</th>
+                            <th>Hospitals</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Doctors.Any())
+                        {
+                            @foreach (var doctor in Model.Doctors)
+                            {
+                                <tr>
+                                    <td>@doctor.Name</td>
+                                    <td>@doctor.Specialization</td>
+                                    <td>Rs. @doctor.ConsultationFee.ToString("N2")</td>
+                                    <td>
+                                        @if (doctor.Hospitals != null && doctor.Hospitals.Any())
+                                        {
+                                            @string.Join(", ", doctor.Hospitals.Select(h => h.Name))
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No hospitals assigned</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center">No doctors found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

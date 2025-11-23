@@ -1,0 +1,88 @@
+@page
+@model DurdansRazor.Pages.Appointments.BookModel
+@{
+    ViewData["Title"] = "Book Appointment";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-warning">
+                    <h3 class="mb-0">Book Appointment</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Appointment.PatientId" class="form-label">Patient</label>
+                            <select asp-for="Appointment.PatientId" class="form-select" asp-items="Model.PatientSelectList">
+                                <option value="">-- Select Patient --</option>
+                            </select>
+                            <span asp-validation-for="Appointment.PatientId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Specialization</label>
+                            <select id="specializationSelect" class="form-select" asp-items="Model.SpecializationSelectList">
+                                <option value="">-- Select Specialization --</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Appointment.DoctorId" class="form-label">Doctor</label>
+                            <select asp-for="Appointment.DoctorId" id="doctorSelect" class="form-select">
+                                <option value="">-- Select Doctor --</option>
+                            </select>
+                            <span asp-validation-for="Appointment.DoctorId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Appointment.HospitalId" class="form-label">Hospital</label>
+                            <select asp-for="Appointment.HospitalId" class="form-select" asp-items="Model.HospitalSelectList">
+                                <option value="">-- Select Hospital --</option>
+                            </select>
+                            <span asp-validation-for="Appointment.HospitalId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Appointment.AppointmentDate" class="form-label"></label>
+                            <input asp-for="Appointment.AppointmentDate" class="form-control" type="datetime-local" />
+                            <span asp-validation-for="Appointment.AppointmentDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning">Book Appointment</button>
+                            <a asp-page="/Appointments/Index" class="btn btn-secondary">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('specializationSelect').addEventListener('change', async function() {
+            const specialization = this.value;
+            const doctorSelect = document.getElementById('doctorSelect');
+            
+            doctorSelect.innerHTML = '<option value="">-- Select Doctor --</option>';
+            
+            if (specialization) {
+                const response = await fetch(`/Appointments/Book?handler=Doctors&specialization=${encodeURIComponent(specialization)}`);
+                const doctors = await response.json();
+                
+                doctors.forEach(doctor => {
+                    const option = document.createElement('option');
+                    option.value = doctor.id;
+                    option.textContent = `${doctor.name} - Rs. ${doctor.consultationFee}`;
+                    doctorSelect.appendChild(option);
+                });
+            }
+        });
+    </script>
+}
