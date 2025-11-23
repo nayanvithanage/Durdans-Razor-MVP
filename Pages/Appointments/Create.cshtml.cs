@@ -8,9 +8,9 @@ namespace DurdansRazor.Pages.Appointments
 {
     public class CreateModel : PageModel
     {
-        private readonly ClinicContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CreateModel(ClinicContext context)
+        public CreateModel(ApplicationDbContext context)
         {
             _context = context;
         }
